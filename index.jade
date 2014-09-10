@@ -1,0 +1,484 @@
+
+
+section.intro.chapter.white(data-background="images/grunge_red.jpg")
+  h1  Welcome
+    b  Scala Bay
+
+
+
+
+section.intro.green(data-background="#134")
+  h1 Building Enterprise 
+    b APIs 
+    | With 
+    b Ease
+
+
+section(data-background="images/jason_contact.png")
+
+
+section.white(data-background="images/grunge_red.jpg")
+  img(src="images/learning_scala.jpg")
+
+
+section(data-background="images/Netflix_Logo_Digital+Video.png")
+  aside.notes We're a streaming service provider and live by our api's
+
+section(data-background="images/netflix_ui.jpg")
+  aside.notes The Netflix UI makes  makes 2 billion requests a day to our APIs.
+
+section(data-background="images/netflix-devices.jpg")
+  aside.notes We have an api client that runs on over a thousand different devices. But before any of these devices can get the Netflix client installed on them...
+
+section(data-background="images/netflix_partner_tools.jpg")
+  aside.notes .. they'll need to go through our rigorous device approval process, and get it fully tested and validated. It's not a large UI, but if you've watched Netflix on a device other than a browser then your device has been certified by our system.
+
+
+section(data-background="images/apiserver_1.png")
+  aside.notes Our system is an enterprise API. We have one or more stateless instances that talk to a few data stores an a single sign on server.
+
+
+section(data-background="images/apiserver_2.png")
+  aside.notes We have a legacy app that's been in place for a few years, helping our users get their devices submitted, analyzed, tested and certified for public use.   So, a lot of the work is creating new business apps, better reports, and replicating a large internal site over to pure REST API's 
+
+
+section.intro.red(data-background="#125")
+  h1 build 
+    b quickly
+    
+section.intro.red(data-background="#125")
+  h1 fail 
+    b faster
+    
+section.intro.red(data-background="#125")
+  h1 deploy 
+    b automatically
+    
+section.intro.red(data-background="#125")
+  h1 enterprise apis with 
+    b ease
+    
+
+section(data-background="images/topics.png")
+  aside.notes So here is what we are going to talk about today
+
+
+section(data-background="images/topics_framework.png")
+  aside.notes Choosing the right framework
+
+
+
+
+section
+  h3 The Right Framework
+  .textLeft
+    p.bigger Easy to learn
+    p.bigger.fragment  Easy to develop with
+    p.bigger.fragment  Integrated
+    p.bigger.fragment  Deployable
+    p.bigger.fragment  Fast (enough)
+
+
+section(data-background="images/scalatra.png")
+  aside.notes This is the framework we chose
+
+section(data-background="images/scalatra_plus.png")
+  aside.notes .. because it came integrated with these wonderful tools
+
+
+
+
+section(data-state="h_basic_post")
+  style.
+    .h_basic_post header:after{ content: "A Basic POST Endpoint"; }
+  pre
+    code(data-trim, contenteditable).
+      import org.scalatra._
+
+      class LoginService extends ScalatraServlet {
+        post("/") {
+          Created("")
+        }
+      }
+
+
+
+section.intro.green(data-background="#134")
+  aside.notes Wait a sec. What was that "Created" object?
+  h1 
+    b Created?
+
+
+
+section(data-state="h_created")
+  aside.notes Creatd is a convenient wrapper around the 200 status code
+  style.
+    .h_created header:after{ content: "Created"; }
+  pre
+    code(data-trim, contenteditable).
+      import org.scalatra._
+
+      object Created {
+        def apply(body: Any = Unit, headers: 
+          Map[String,String]) = {
+
+          ActionResult(ResponseStatus(201,""), 
+            body, Map())
+        }
+      }
+
+
+
+section(data-state="h_auth_endpoint")
+  aside.notes What's wrong with this code? Other than being overly simple, and being written in an esoteric language?
+  style.
+    .h_auth_endpoint header:after{ content: "An Authentication Endpoint"; }
+  pre
+    code(data-trim, contenteditable).
+      class LoginService extends ScalatraServlet  {
+        post("/") {
+          val token = LoginManager.login(params("user"), 
+            params("password"))
+
+          token match{
+            case None => Unauthorized("Login failed")
+            case Some(t) => Ok(t)
+          }
+        }
+      }
+
+
+
+section.intro.green(data-background="#134")
+  h1 What About 
+    b Missing 
+    | Parameters?
+
+
+
+section(data-state="h_auth_endpoint2")
+  style.
+    .h_auth_endpoint2 header:after{ content: "Now With Valid HTTP Codes"; }
+  pre
+    code(data-trim, contenteditable).
+      class LoginService extends ScalatraServlet  {
+        post("/") {
+          if (params.get("user").isEmpty) {
+            BadRequest("Param not found: 'user'")
+          }
+          
+          else if (params.get("password").isEmpty) {
+            BadRequest("Param not found: 'password'")
+          }
+          
+          else {
+            ...
+          }
+        }
+      }
+
+
+
+
+
+section(data-background="images/topics_rest.png")
+  aside.notes Its important to standardize on the basics of REST
+
+
+
+section.intro.green(data-background="#621")
+  h1 Respect The 
+    b Codes 
+
+
+section(data-background="images/http_codes_for_dummies.jpg")
+  aside.notes HTTP response codes are pretty easy to figure out. Return the right ones and your users will figure out what's going on when they don't get the result they expected.
+
+
+section(data-background="images/http_codes_for_dummies_2.jpg")
+  aside.notes For an enterprise API, it's a good practice to limit your results to just these categories. Reduce 30x, avoid all 50x. Will anyone check all these codes? No way!
+
+
+
+section.intro.green(data-background="#621")
+  h1
+    b Act 
+    | Wisely
+
+
+
+
+section
+  h2 HTTP Actions
+  .textLeft
+    p.bigger GET
+      span.fragment &nbsp; <i>Read</i>
+    p.bigger.fragment  PUT
+      span.fragment &nbsp; <i>Update</i>
+    p.bigger.fragment  POST
+      span.fragment &nbsp; <i>Create</i>
+    p.bigger.fragment  DELETE
+      span.fragment &nbsp; <i>uh huh</i>
+
+
+
+
+
+
+section.intro.green(data-background="#621")
+  aside.notes The right urls for your endpoints will make your application obvious for users
+  h1 Follow The 
+    b Path 
+
+
+
+section
+  aside.notes So try to design endpoints based on nouns, based on resources. Manish will get into this in more detail.
+  h2 REST Endpoints
+  br
+  pre
+    code().
+      /models/
+      /models/search
+      /models/&lt;id>
+      /models/&lt;id>/approve
+      /models/&lt;id>/publish
+
+
+
+section(data-background="images/puppy_findable.jpg")
+  aside.notes As an enterprise API developer, you want your users to find your api's. And if you use the standard endpoint layout, they'll have an easier time finding them.
+
+
+
+
+section.intro.green(data-background="#621")
+  h1 Let The  
+    b Standards 
+    | Do The Heavy Lifting 
+
+
+
+section(data-background="images/topics_layers.png")
+
+
+section(data-background="images/sm_layer.jpg")
+
+
+section(data-background="images/smd_layer.jpg")
+
+
+section(data-background="images/opinion.jpg")
+
+
+section(data-background="images/topics_tests.png")
+  aside.notes Organize your application for testing & reuse
+
+
+section.intro.green(data-background="#621")
+  h1 Fail  
+    b Fast 
+
+
+section.intro.green(data-background="#134")
+  h1 Assure Your  
+    b Quality 
+    | Before Your Users Do 
+
+
+
+section
+  h3 What Can You Test?  
+  br
+  .textLeft
+    p.bigger DAO
+    p.bigger.fragment Managers 
+    p.bigger.fragment Managers -> DAO
+    p.bigger.fragment Services 
+    p.bigger.fragment Services -> Managers
+    p.bigger.fragment Browser -> Services
+    p.bigger.fragment Services -> Browser
+
+
+
+section.intro.green(data-background="#621")
+  h1 Browser/Service Testing Is 
+    b Crucial
+
+
+
+section(data-state="h_test_outcomes")
+  aside.notes At the very least you should write tests that verify how you think the code is going to work when everything is successful
+  style.
+    .h_test_outcomes header:after{ content: "Test Successful Outcomes"; }
+  pre
+    code(data-trim, contenteditable).
+      class LoginServiceSpec extends ScalatraSuite 
+        with FlatSpec {
+        
+        addServlet(new LoginService, "/*")
+        
+        "Login service" should "authenticate users" in {
+          post("/user=jason&password=1234") {
+            status should equal(200)
+            body.size should be > 10
+          }
+        }
+      }    
+    
+    
+section(data-state="h_test_outcomes2")
+  aside.notes What does that last test check for?
+  style.
+    .h_test_outcomes2 header:after{ content: "... And Unsuccessful Ones"; }
+  pre
+    code(data-trim, contenteditable).
+      it should "handle missing parameters" in {
+
+        post("/?user=name") {
+          status should equal(400)
+        }
+        post("/?password=pass") {
+          status should equal(400)
+        }
+        post("/?user=name&password=pass") {
+          status should not equal(400)
+        }
+      }
+    
+    
+
+section.intro.green(data-background="#621")
+  h1 Let The 
+    b Test Tools 
+    | Do The Heavy Lifting
+
+
+section(data-background="images/topics_deployment.png")
+  aside.notes Save time and set up an automatic deployment system
+
+
+
+section(data-background="images/balancing.jpg")
+  aside.notes For a lot of developers, the deployment takes actual time from when they could be creating new and valuable services
+
+
+section.intro.green(data-background="#621")
+  h1 Build 
+    b Script-Ready 
+    | Deployables
+
+
+section(data-background="images/packaging.jpg")
+  aside.notes Your deployment steps should all be scriptable and automatic. And, dare I say to a crowd of Scala developers, your servers should be IMMUTABLE
+
+
+section.intro.green(data-background="#134")
+  aside.notes Another deployment tip. If you're not doing this, why are you even writing tests?
+  h1 
+    b Pass 
+    | All Tests Before Deploying 
+
+    
+section(data-background="images/deployment.jpg")
+  aside.notes Here's a workflow we're using, with git, Jenkins and our auto deployment server
+
+section(data-background="images/asgard_1.jpg")
+  aside.notes You can get Asgard, a console and deployment tool for AWS, now on Github. In the next year we'll be releasing a new version of Asgard that will support automatic deployments, until then you may need to create your own
+
+section(data-background="images/asgard_2.jpg")
+  aside.notes 
+
+section(data-background="images/fast_rollback.gif")
+  aside.notes Make sure to choose a solution that will roll out your code and also roll it back when there's problems. You shouldn't have to babysit even a production deploying
+
+
+    
+section.intro.green(data-background="#621")
+  aside.notes In short
+  h1 Let The 
+    b Tools 
+    | Do The Heavy Lifting
+    
+
+
+
+section(data-background="images/topics_docs.png")
+  aside.notes I know, just like a developer to save the documentation for last
+
+section(data-background="images/lamppost_1.jpg")
+  aside.notes But I want to tell you this story, and don't stop me if you'd heard this one
+
+section(data-background="images/lamppost_2.jpg")
+  aside.notes Yeah, only moderately funny. But relevant
+
+
+section.intro.green(data-background="#134")
+  h1 90% of API Usage Is Just  
+    b Showing Up
+
+
+
+section(data-background="images/swagger.jpg")
+  aside.notes Here's the swagger JSON format, JSON generation and portable website
+
+    
+section(data-state="h_auto_api_docs")
+  aside.notes What does that last test check for?
+  style.
+    .h_auto_api_docs header:after{ content: "Automatic API Documentation"; }
+  pre
+    code(data-trim, contenteditable).
+      class LoginService extends ScalatraServlet  {
+        post("/", operation(postLogin)) { ... }
+
+        def postLogin = apiOperation[String]("login", 
+          "Authenticate a user and return their token")
+          .parameters(
+            queryParam[String]("user")
+              .description("The user name"),
+            queryParam[String]("password")
+              .description("Their password")
+          )
+      }
+
+
+
+
+section(data-background="images/login_swagger.jpg")
+  aside.notes Here is our login service now. Its findable. Thoroughly documented. And testable!
+
+
+
+section.intro.green(data-background="#134")
+  h1 Let The 
+    b Doc Utils 
+    | Do The Heavy Lifting
+
+section(data-background="images/topics.png")
+  aside.notes In Summary
+
+section.intro.green(data-background="#134")
+  h1 Let 
+    b Tools 
+    | Do The Heavy Lifting
+
+section.intro.green(data-background="#621")
+  h1 So You 
+    b Don't  
+    | Have To
+    
+ section.intro.darkBlue(data-background="#eef")
+  h1 Now Go And Write 
+    b API's 
+    | With 
+    b Ease!
+    
+
+section(data-background="images/jason_contact.png")
+
+section.intro.chapter.white(data-background="images/grunge_red.jpg")
+  h1  Thanks Everyone!
+
+
+

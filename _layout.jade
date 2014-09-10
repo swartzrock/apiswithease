@@ -1,0 +1,54 @@
+doctype 5
+html
+  head
+    meta(charset='utf-8')
+    title Build APIs With Ease
+
+    // Core reveal.js styles
+    link(rel='stylesheet', href='css/reveal.min.css')
+
+    // our own awesome styles
+    link(rel='stylesheet', href='main.css')  
+
+    // syntax highlighting scheme
+    link(rel='stylesheet', href='plugin/highlight/styles/github.css')
+
+  body#body
+    .reveal
+      header 
+      .slides
+        != yield
+
+          
+    script(src='lib/js/head.min.js')
+    
+    script(src='js/jquery.min.js')
+    script.
+      // Fix Jade's contenteditable attributes
+      jQuery('code[contenteditable=contenteditable]').attr('contenteditable','')
+
+    script(src='js/reveal.min.js')
+    script.
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        width: 1440,
+        height: 900,
+        controls: false,
+        progress: true,
+        history: true,
+        center: true,
+        theme: 'default',
+        transition: 'none', 
+        transitionSpeed: 'slow',
+        backgroundTransition: 'none',
+        // theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        // transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+        { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });

@@ -1,0 +1,233 @@
+/**
+ * Get Started With Scala
+ * Theme for OSCON deck
+ */
+
+// Default mixins and settings -----------------
+@import "css/theme/template/mixins";
+@import "css/theme/template/settings";
+// ---------------------------------------------
+
+
+// Background of the presentation
+$backgroundColor: #faffff;
+
+// Primary/body text
+$mainFont: "Merriweather Sans", sans-serif;
+$mainFontSize: 3em;
+$mainColor: #222;
+
+// Headings
+$headingMargin: 0 0 20px 0;
+$headingFont: 'Merriweather Sans', sans-serif;
+$headingColor: black;
+$headingLineHeight: 1.3em;
+$headingLetterSpacing: 0.02em;
+$headingTextTransform: none;
+$headingTextShadow: 2px 2px 2px rgba(0,0,0,0.25);
+$heading1TextShadow: $headingTextShadow;
+
+// Links and actions
+$linkColor: #333;
+$linkColorHover: lighten( $linkColor, 20% );
+
+// Text selection
+$selectionBackgroundColor: #FF5E99;
+$selectionColor: #fff;
+
+// Generates the presentation background, can be overridden
+// to return a background image or gradient
+@mixin bodyBackground() {
+	background: $backgroundColor;
+}
+
+
+#body .reveal {
+
+
+  pre { 
+    box-shadow: none; 
+    width: 200%; 
+    overflow: visible; 
+  }
+  code { 
+    font-family: Menlo,sans-serif;
+    line-height: 1.2em;
+    font-size: 50px; 
+    max-height: 800px; 
+    background: $backgroundColor;
+    .hljs-keyword { font-weight: bold; color: #009; }
+  }
+	h1 { font-size: 2.5em; font-weight: bold; }
+	h2 { font-size: 2em; font-weight: bold; }
+  h3 { 
+    font-size: 1.6em; font-weight: bold; margin-bottom: .5em; 
+    text-shadow: none;
+  }
+
+  img { 
+    box-shadow: none; border: none; 
+  }
+  // li { list-style-type: none; }
+
+  header {
+    position: absolute;
+    top: 0;
+    padding-top: 10px;
+    width: 100%;
+    text-align: center;
+    z-index: 500;
+    font: bold 1em $headingFont;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+    color: #9b7;
+    background: #134;
+  }
+  table {
+    margin: 0 auto;
+    th, td { padding: .1em 1em; }
+    th { border-bottom: 3px solid black; }
+    td { border-bottom: 1px solid #ccc; font-size: .9em;}
+    td code { font-size: .8em; }
+  }
+}
+
+
+// Our own styles
+$introFont: Oswald;
+
+#body .reveal {
+  .bigfancy {
+  	color: #ea6; 
+  	font: normal 6em Lobster,serif;
+  	text-shadow: 1px 2px 3px rgba(0,0,0,0.7)
+    b { font-size: 10em; }
+  }
+  .bullet1 {
+    li { 
+      font-size: 1.5em; 
+      list-style-type: circle; margin-bottom: .75em; 
+    }
+  }
+  .green {
+    h1,h2,h3,h4 {  color: #9b7; 
+      b {  color: #ffa; } 
+    }
+  }
+  .darkBlue {
+    h1,h2,h3,h4 {  color: #128; 
+      b {  color: #24a; } 
+    }
+  }
+  .white {
+    color: white;
+    h1,h2,h3,h4 {  color: white;
+      b {  color: white; } 
+    }
+  }
+  .red {
+    h1,h2,h3,h4 {  color: #a33; 
+      b {  color: #e60; } 
+    }
+  }
+  .intro {
+    h1 { font: normal 2.75em $introFont;  
+      b { font: bold 1.75em $introFont;  } 
+    }
+  }
+  .imgleft {
+    div, img { width: 35%; vertical-align: middle; }
+    ul { width: 46%; margin-left: 60px; vertical-align: middle;  }
+    li { font-size: 1.2em; margin-bottom: .5em; }
+  }
+  .strike { text-decoration: line-through; }
+  .left { text-align: left; }
+  .syntax {
+    font-size: 60px
+  }
+  .bigger {
+    font-size: 1.25em; 
+    line-height: 1.25em;
+  }
+  .smaller {
+    font-size: .8em; 
+  }
+  .chapter h1 {
+    text-shadow: 4px 4px 3px rgba(0,0,0,0.80);
+    b { display: block; margin-top: .75em; }
+  }
+  .textLeft {
+    text-align: left;
+    margin-left: 4em;
+  }
+}
+
+
+
+// Include our fonts
+
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Oswald Regular"), local("Oswald-Regular"), url(fonts/Oswald-Regular.woff) format("woff");
+}
+
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 700;
+  src: local("Oswald Bold"), local("Oswald-Bold"), url(fonts/Oswald-Bold.woff) format("woff");
+}
+
+@font-face {
+  font-family: 'Lobster';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Lobster"), url(fonts/Lobster.ttf) format("truetype");
+}
+
+
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Merriweather'), local('Merriweather'), url(fonts/Merriweather-Regular.ttf) format('woff');
+}
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Merriweather Bold'), local('Merriweather-Bold'), url(fonts/Merriweather-Bold.ttf) format('woff');
+}
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Merriweather Heavy'), local('Merriweather-Heavy'), url(fonts/Merriweather-Black.ttf) format('woff');
+}
+
+@font-face {
+  font-family: 'Merriweather Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Merriweather Sans Regular'), local('MerriweatherSans-Regular'), url(fonts/MerriweatherSans-Regular.ttf) format('woff');
+}
+@font-face {
+  font-family: 'Merriweather Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Merriweather Sans Bold'), local('MerriweatherSans-Bold'), url(fonts/MerriweatherSans-Bold.ttf) format('woff');
+}
+@font-face {
+  font-family: 'Merriweather Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Merriweather Sans ExtraBold'), local('MerriweatherSans-ExtraBold'), url(MerriweatherSans-ExtraBold.ttf) format('woff');
+}
+
+
+
+
+// Theme template ------------------------------
+@import "css/theme/template/theme";
+// ---------------------------------------------
