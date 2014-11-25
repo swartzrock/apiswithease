@@ -1,6 +1,5 @@
 /**
- * Get Started With Scala
- * Theme for OSCON deck
+ * APIs With Ease
  */
 
 // Default mixins and settings -----------------
@@ -160,6 +159,24 @@ $introFont: Oswald;
     margin-left: 4em;
   }
 }
+
+
+#body .reveal {
+
+  .controls div.navigate-right,
+  .controls div.navigate-right.enabled {
+    border-left-color: #0f0;
+  }
+  
+  .controls div.navigate-right.fragmented {
+    border-left-color: #f33;
+    opacity: 1.0;
+  }
+
+
+}
+
+
 
 
 
